@@ -64,11 +64,13 @@ services:
     # API仕様書生成ツール
     ## Swagger UI
     swagger:
-        image: 'swaggerapi/swagger-ui'
+        image: swaggerapi/swagger-ui
         ports:
             - '8002:8080'
+        environment:
+            SWAGGER_JSON: '/openapi/openapi.yml'
         volumes:
-            - './docs/api/${OPENAPI_FILE_NAME}:/usr/share/api/${OPENAPI_FILE_NAME}'
+            - './docs/api/${OPENAPI_FILE_NAME}:/openapi/openapi.yml'
         networks:
             - sail
     ## ReDoc
