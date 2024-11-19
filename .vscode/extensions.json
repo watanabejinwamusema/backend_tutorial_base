@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "bmewburn.vscode-intelephense-client",
+        "devsense.phptools-vscode",
+        "github.vscode-pull-request-github",
+        "redocly.openapi-vs-code"
+    ]
+}
