@@ -1,0 +1,34 @@
+erDiagram
+  USERS ||--o{ ARTICLES : "writes"
+  USERS ||--o{ COMMENTS : "posts"
+  ARTICLES ||--o{ COMMENTS : "has"
+
+  USERS {
+    BIGINT id PK
+    VARCHAR name
+    VARCHAR email UNIQUE
+    VARCHAR password
+    DATETIME email_verified_at
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  ARTICLES {
+    BIGINT id PK
+    VARCHAR(255) title
+    TEXT body
+    BIGINT user_id FK
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  COMMENTS {
+    BIGINT id PK
+    BIGINT article_id FK
+    BIGINT user_id FK
+    VARCHAR(100) body
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+    %% (任意) 論理削除するなら:
+    %% TIMESTAMP deleted_at
+  }

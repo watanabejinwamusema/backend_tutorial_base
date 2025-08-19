@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Comments API
+  version: 1.0.0
+servers:
+  - url: http://localhost/api
+paths:
+  /articles/{article}/comments:
+    get:
+      summary: コメント一覧（新しい順）
+      parameters:
+        - in: path
+          name: article
+          schema: { type: integer }
+          required: true
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: コメント作成
+      parameters:
+        - in: path
+          name: article
+          schema: { type: integer }
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentCreate"
+      responses:
+        "201": { description: Created }
+        "422": { description: Validation Error }
+  /articles/{article}/comments/{comment}:
+    put:
+      summary: コメント更新（本人のみ）
+      parameters:
+        - in: path
+          name: article
+          schema: { type: integer }
+          required: true
+        - in: path
+          name: comment
+          schema: { type: integer }
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentUpdate"
+      responses:
+        "200": { description: OK }
+        "403": { description: Forbidden }
+        "404": { description: Not Found }
+        "422": { description: Validation Error }
+    delete:
+      summary: コメント削除（本人のみ）
+      parameters:
+        - in: path
+          name: article
+          schema: { type: integer }
+          required: true
+        - in: path
+          name: comment
+          schema: { type: integer }
+          required: true
+      responses:
+        "200": { description: Deleted }
+        "403": { description: Forbidden }
+        "404": { description: Not Found }
+
+components:
+  schemas:
+    CommentCreate:
+      type: object
+      required: [body]
+      properties:
+        body:
+          type: string
+          minLength: 10
+          maxLength: 100
+    CommentUpdate:
+      allOf:
+        - $ref: "#/components/schemas/CommentCreate"
